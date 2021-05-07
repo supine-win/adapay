@@ -3,3 +3,4 @@ vendor
 log
 reports
 *.zip
+composer.lock

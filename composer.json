@@ -1,5 +1,5 @@
 {
-    "name": "supinewin/adapay",
+    "name": "supine-win/adapay",
     "description": "基于adapay官方SDK的composer包",
     "keywords": ["adapay", "laravel", "pay"],
     "type": "library",

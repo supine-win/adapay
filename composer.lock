@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d714077fde4e4be776c43b44b5d1b710",
+    "content-hash": "926db0bf98506ea1fcf725d3c7d8338f",
     "packages": [
         {
             "name": "workerman/mqtt",
@@ -1970,7 +1970,8 @@
         "php": ">=7.1",
         "ext-curl": "*",
         "ext-json": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-openssl": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
