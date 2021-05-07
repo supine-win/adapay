@@ -1,0 +1,16 @@
+{
+    "name": "supinewin/adapay",
+    "description": "this is a adapay sdk",
+    "type": "library",
+    "require": {
+        "workerman/workerman": "^4.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "supine-win",
+            "email": "supine.win@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
