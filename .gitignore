@@ -1,2 +1,5 @@
 .idea
-/vendor/
+vendor
+log
+reports
+*.zip
