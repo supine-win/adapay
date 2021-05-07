@@ -35,5 +35,5 @@
             "email": "supine.win@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
