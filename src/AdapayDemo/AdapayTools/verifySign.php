@@ -12,7 +12,7 @@ include_once  dirname(__FILE__). "/../config.php";
 
 
 # 初始化账户对象
-$adapay_tools = new \SupineWin\Adapay\AdapaySdk\Utils\AdapayTools();
+$adapay_tools = new \SupineWin\Adapay\AdapaySdk\AdapayTools();
 
 # 获取银联云闪付用户标识
 $params = array(

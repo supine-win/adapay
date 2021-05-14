@@ -40,8 +40,11 @@ class AdaPay
         $this->__init_params();
     }
 
-    public static function init($config_info, $prod_mode = "live", $is_object = false)
+    public static function init($config_info, $prod_mode = "live", $is_object = false, $setting_file = '')
     {
+        $setting = self::getConfig($setting_file);
+        $setting = array_merge(self::default(), $setting);
+
 
         if (empty($config_info)) {
             try {
@@ -65,20 +68,22 @@ class AdaPay
             $config_obj = json_decode($cfg_file_str, true);
         }
 
-        $sdk_version = defined("SDK_VERSION") ? SDK_VERSION : "v1.0.0";
+        $sdk_version = AdapaySetting::SDK_VERSION;
         array_push(self::$header, "sdk_version:" . $sdk_version);
         array_push(self::$headerText, "sdk_version:" . $sdk_version);
         array_push(self::$headerEmpty, "sdk_version:" . $sdk_version);
-        self::$isDebug = defined("DEBUG") ? DEBUG : false;
-        self::$logDir = defined("DEBUG") ? LOG : dirname(__FILE__) . "/log";
-        $project_env = defined("ENV") ? ENV : "prod";
+
+        self::$isDebug = $setting['debug'] ?? false;
+        self::$logDir = $setting['log'] ?? dirname(__FILE__) . "/log";
+        $project_env = $setting['env'] ?? "prod";
+
         self::init_mqtt($project_env);
 
         if ($prod_mode == 'live') {
-            self::$api_key = isset($config_obj['api_key_live']) ? $config_obj['api_key_live'] : '';
+            self::$api_key = $config_obj['api_key_live'] ?? '';
         }
         if ($prod_mode == 'test') {
-            self::$api_key = isset($config_obj['api_key_test']) ? $config_obj['api_key_test'] : '';
+            self::$api_key = $config_obj['api_key_test'] ?? '';
         }
 
         if (isset($config_obj['rsa_public_key']) && $config_obj['rsa_public_key']) {
@@ -92,7 +97,7 @@ class AdaPay
 
     public static function getGateWayUrl($type)
     {
-        self::$gateWayUrl = defined("GATE_WAY_URL") ? sprintf(GATE_WAY_URL, $type) : "https://api.adapay.tech";
+        self::$gateWayUrl = AdapaySetting::GATE_WAY_URL ? sprintf(AdapaySetting::GATE_WAY_URL, $type) : "https://api.adapay.tech";
     }
 
     public static function setApiKey($api_key)
@@ -130,13 +135,12 @@ class AdaPay
 
     protected function do_empty_data($req_params)
     {
-        $req_params = array_filter($req_params, function ($v) {
+        return array_filter($req_params, function ($v) {
             if (!empty($v) || $v == '0') {
                 return true;
             }
             return false;
         });
-        return $req_params;
     }
 
     public static function writeLog($message, $level = "INFO")
@@ -176,8 +180,8 @@ class AdaPay
         $this->statusCode = $this->result[0];
         $resp_str = $this->result[1];
         $resp_arr = json_decode($resp_str, true);
-        $resp_data = isset($resp_arr['data']) ? $resp_arr['data'] : '';
-        $resp_sign = isset($resp_arr['signature']) ? $resp_arr['signature'] : '';
+        $resp_data = $resp_arr['data'] ?? '';
+        $resp_sign = $resp_arr['signature'] ?? '';
         $resp_data_decode = json_decode($resp_data, true);
         if ($resp_sign && $this->statusCode != 401) {
             if ($this->ada_tools->verifySign($resp_sign, $resp_data)) {
@@ -200,5 +204,22 @@ class AdaPay
             $this->result = $resp_arr;
             return true;
         }
+    }
+
+    public static function getConfig($path = "")
+    {
+        $raw = __DIR__ . '/config.php';
+        $path = $path ? (is_file($path) ? $path : $raw) : $raw;
+        $source = realpath($path) ?: $raw;
+        return include($source);
+    }
+
+    public static function default()
+    {
+        return [
+            "log" => __DIR__ . '/../log/prod',
+            "env" => 'prod',
+            "debug" => true,
+        ];
     }
 }

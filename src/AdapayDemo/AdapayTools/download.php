@@ -12,7 +12,7 @@ include_once  dirname(__FILE__). "/../config.php";
 
 
 # 初始化账户对象
-$obj = new \SupineWin\Adapay\AdapaySdk\Utils\AdapayTools();
+$obj = new \SupineWin\Adapay\AdapaySdk\AdapayTools();
 
 # 对账单下载
 $obj->download("20190905");
