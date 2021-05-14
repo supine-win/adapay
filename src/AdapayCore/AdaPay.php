@@ -40,10 +40,16 @@ class AdaPay
         $this->__init_params();
     }
 
-    public static function init($config_info, $prod_mode = "live", $is_object = false, $setting_file = '')
+    public static function init($config_info, $prod_mode = "live", $is_object = false, $setting = '')
     {
-        $setting = self::getConfig($setting_file);
-        $setting = array_merge(self::default(), $setting);
+        if (is_string($setting) && is_file($setting)) {
+            $setting = self::getConfig($setting);
+            $setting = array_merge(self::default(), $setting);
+        } else if (is_array($setting)) {
+            $setting = array_merge(self::default(), $setting);
+        } else {
+            $setting = self::default();
+        }
 
 
         if (empty($config_info)) {
