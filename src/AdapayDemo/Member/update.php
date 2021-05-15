@@ -12,7 +12,7 @@ include_once  dirname(__FILE__). "/../config.php";
 
 
 # 初始化用户对象类
-$member = new \SupineWin\Adapay\AdapaySdk\Utils\Member();
+$member = new \SupineWin\Adapay\AdapaySdk\Member();
 
 # 更新用户对象设置
 $member_params = array(

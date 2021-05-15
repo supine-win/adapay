@@ -22,8 +22,8 @@ class AdaPay
     public static $mqttInstanceId = "post-cn-0pp18zowf0m";
     public static $mqttGroupId = "GID_CRHS_ASYN";
     public static $mqttAccessKey = "LTAIOP5RkeiuXieW";
-
     public static $isDebug;
+
     public static $logDir = "";
     public $postCharset = "utf-8";
     public $signType = "RSA2";
@@ -31,6 +31,9 @@ class AdaPay
     public $ada_tools = "";
     public $statusCode = 200;
     public $result = array();
+
+
+    protected $appId = '';
 
     public function __construct()
     {
@@ -227,5 +230,15 @@ class AdaPay
             "env" => 'prod',
             "debug" => true,
         ];
+    }
+
+    public function getAppId()
+    {
+        return $this->appId ?? '';
+    }
+
+    public function setAppId(string $id)
+    {
+        $this->appId = $id;
     }
 }
