@@ -12,7 +12,7 @@ include_once  dirname(__FILE__). "/../config.php";
 
 
 # 初始化支付类
-$payment = new \SupineWin\Adapay\AdapaySdk\Utils\Payment();
+$payment = new \SupineWin\Adapay\AdapaySdk\Payment();
 
 
 # 请求参数
